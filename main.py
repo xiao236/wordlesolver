@@ -61,18 +61,23 @@ def parse_input(color_in, word_in):
 
 
 def best_answer():
-    words = ""
+    all_letters = ["", "", "", "", ""]
     for each in poss_list:
-        words = words + each
-    lett = {}
-    for each in alphabet:
-        lett[each] = words.count(each)
+        position = 0
+        for letter in each:
+            all_letters[position] = all_letters[position] + letter
+            position += 1
+    lett = [{}, {}, {}, {}, {}]
+    for position in range(5):
+        for each in alphabet:
+            lett[position][each] = all_letters[position].count(each)
     scores = {}
     for each in poss_list:
         curr_score = 0
+        position = 0
         for letter in each:
-            if each.count(letter) <= 1:
-                curr_score += lett[letter]
+            curr_score += lett[position][letter]
+            position += 1
         scores[each] = curr_score
     global curr_ans
     curr_ans= max(scores, key=scores.get)
