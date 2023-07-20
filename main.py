@@ -12,8 +12,6 @@ alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n'
 curr_ans = ""
 
 
-
-
 def minus(total, bad):
     global poss_list
     new_list = []
@@ -30,6 +28,7 @@ def read_list():
     f.close()
     for each in lines:
         poss_list.append(each.strip())
+
 
 def parse_input(color_in, word_in):
     to_remove = []
@@ -80,14 +79,16 @@ def best_answer():
             position += 1
         scores[each] = curr_score
     global curr_ans
-    curr_ans= max(scores, key=scores.get)
+    curr_ans = max(scores, key=scores.get)
 
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     root = Tk()
+    root.geometry("700x275")
     read_list()
     best_answer()
+
 
     def backspace():
         global user
@@ -95,15 +96,18 @@ if __name__ == '__main__':
             user = user[:len(user) - 1]
         feedback.set("Please input feedback: " + user)
 
+
     def add_black():
         global user
         user += "B"
         feedback.set("Please input feedback: " + user)
 
+
     def add_yellow():
         global user
         user += "Y"
         feedback.set("Please input feedback: " + user)
+
 
     def add_green():
         global user
@@ -120,14 +124,14 @@ if __name__ == '__main__':
             user = ""
             feedback.set("Please input feedback: " + user)
 
+
     user = ""
 
     feedback = StringVar()
     feedback.set("Please input feedback: ")
 
     ideal = StringVar()
-    ideal.set("Your next best guess is " + curr_ans)
-
+    ideal.set("There are " + str(len(poss_list)) + " possibilities. Your next best guess is " + curr_ans.upper() + ".")
 
     frm = ttk.Frame(root, padding=10)
     frm.grid()
@@ -135,17 +139,21 @@ if __name__ == '__main__':
     "This bot will output the best possible answer. Please reply in a form of \"GGYBB\",").grid(column=0, row=0)
     tkinter.Label(frm, text=
     "a 5 letter string where G = green, Y = yellow, and B = black depending on what the wordle gives you.").grid(
-        column=0, row=1)
-    tkinter.Label(frm, textvariable=ideal).grid(column=0, row=2)
-    tkinter.Label(frm, textvariable=feedback).grid(column=0, row=3)
+        column=0, row=2)
+    tkinter.Label(frm, textvariable=ideal).grid(column=0, row=4)
+    tkinter.Label(frm, textvariable=feedback).grid(column=0, row=6)
 
-    tkinter.Button(frm, text="  ", bg='green', command=add_green).grid(column=0, row=4)
-    tkinter.Button(frm, text="  ", bg='black', command=add_black).grid(column=1, row=4)
-    tkinter.Button(frm, text="  ", bg='yellow', command=add_yellow).grid(column=2, row=4)
+    gr_input = ttk.Frame(frm)
+    tkinter.Button(gr_input, text="  ", bg='green', command=add_green).grid(column=0, row=1)
+    tkinter.Button(gr_input, text="  ", bg='black', command=add_black).grid(column=2, row=1)
+    tkinter.Button(gr_input, text="  ", bg='yellow', command=add_yellow).grid(column=4, row=1)
+    gr_input.grid(column=0, row=8)
 
-    tkinter.Button(frm, text="Backspace", command=backspace).grid(column=0, row=5)
-    tkinter.Button(frm, text="Quit", command=root.destroy).grid(column=1, row=5)
-    tkinter.Button(frm, text="Submit", command=submit).grid(column=2, row=5)
+    gr_buttons = ttk.Frame(frm)
+    tkinter.Button(gr_buttons, text="Backspace", command=backspace).grid(column=0, row=1)
+    tkinter.Button(gr_buttons, text="Quit", command=root.destroy).grid(column=2, row=1)
+    tkinter.Button(gr_buttons, text="Submit", command=submit).grid(column=4, row=1)
+    gr_buttons.grid(column=0, row=10)
     root.mainloop()
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
